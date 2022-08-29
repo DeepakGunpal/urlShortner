@@ -19,7 +19,7 @@ function App() {
       body: JSON.stringify({ longUrl: url })
     })
     const result = await data.json()
-    if (data.status !== 200) {
+    if (data.status === 400) {
       window.alert(result.message)
     }
     setShortUrl(result)
