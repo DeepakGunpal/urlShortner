@@ -6,7 +6,6 @@ const { urlShorten, getUrlCode } = require("../controller/urlController")
 router.post("/url/shorten", urlShorten);
 
 router.get("/:urlCode", getUrlCode)
-router.post("/:urlCode", getUrlCode)
 
 
 
