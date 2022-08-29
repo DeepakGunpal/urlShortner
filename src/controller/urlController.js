@@ -21,7 +21,7 @@ const urlShorten = async function (req, res) {
   try {
     let requestBody = req.body;
     let { longUrl } = requestBody;
-   
+
 
     const shorIdCharacters = shortid.characters(
       "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@"
@@ -29,11 +29,11 @@ const urlShorten = async function (req, res) {
 
     let urlCode = shortid.generate(shorIdCharacters);
 
-    let baseUrl = "http://localhost:3000";
+    let baseUrl = "http://localhost:4000";
 
     let shortUrl = baseUrl + "/" + urlCode;
 
-    // http://localhost:3000/fsdoierlksdfo
+    // http://localhost:4000/fsdoierlksdfo
 
     //validation
     if (!isValidRequestBody(requestBody)) {
@@ -57,7 +57,7 @@ const urlShorten = async function (req, res) {
     if (!validUrl.test(longUrl)) {
       return res
         .status(400)
-        .send({ status: false, message: "Long url is invalid" });
+        .send({ status: false, message: "Invalid URL" });
     }
 
     longUrl = longUrl.toLowerCase().trim();
@@ -128,5 +128,6 @@ let getUrlCode = async function (req, res) {
     res.status(500).send({ status: false, message: error.message });
   }
 };
+
 
 module.exports = { urlShorten, getUrlCode };

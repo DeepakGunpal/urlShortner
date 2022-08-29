@@ -3,12 +3,18 @@ const bodyparser = require("body-parser");
 const mongoose = require("mongoose");
 const route = require("./routes/route");
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
 const app = express();
 
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
+
+//cors
+app.use((req, res, next) => {
+  res.header({ "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Content-Type" });
+  next();
+});
 
 mongoose
   .connect(
