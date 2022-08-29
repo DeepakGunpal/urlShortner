@@ -11,7 +11,7 @@ function App() {
   const [url, setUrl] = useState("");
 
   const submit = async () => {
-    const data = await fetch('http://localhost:4000/url/shorten', {
+    const data = await fetch('https://urlshortnerdg.herokuapp.com/url/shorten', {
       method: "POST",
       headers: {
         'Content-Type': 'application/json'

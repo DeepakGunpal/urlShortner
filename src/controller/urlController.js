@@ -29,7 +29,7 @@ const urlShorten = async function (req, res) {
 
     let urlCode = shortid.generate(shorIdCharacters);
 
-    let baseUrl = "http://localhost:4000";
+    let baseUrl = "https://urlshortnerdg.herokuapp.com/";
 
     let shortUrl = baseUrl + "/" + urlCode;
 
