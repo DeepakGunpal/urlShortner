@@ -109,7 +109,7 @@ let getUrlCode = async function (req, res) {
     //convert to object
     const urlData = JSON.parse(cachesUrlData);
     if (cachesUrlData) {
-      return res.status(302).redirect(urlData.longUrl);
+      return res.status(302).send(urlData);
     } else {
       let findUrlCode = await urlModel
         .findOne({ urlCode: requestParams })
@@ -122,7 +122,7 @@ let getUrlCode = async function (req, res) {
       }
 
       await SET_ASYNC(`${requestParams}`, JSON.stringify(findUrlCode));
-      res.status(302).redirect(findUrlCode.longUrl);
+      res.status(302).send(findUrlCode);
     }
   } catch (error) {
     res.status(500).send({ status: false, message: error.message });

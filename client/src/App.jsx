@@ -11,6 +11,7 @@ function App() {
   const [url, setUrl] = useState("");
 
   const submit = async () => {
+    console.log('hello')
     const data = await fetch('https://urlshortnerdg.herokuapp.com/url/shorten', {
       method: "POST",
       headers: {
@@ -34,10 +35,10 @@ function App() {
         <button type='submit' onClick={submit}>Submit</button>
       </div>
       {
-        shortUrl.data && <Result result={shortUrl}/>
+        shortUrl.data && <Result result={shortUrl} />
       }
-      <Socials/>
-      
+      <Socials />
+
     </div>
   );
 }
