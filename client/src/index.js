@@ -12,7 +12,7 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<App />} />
-        <Route path='/url' element={<ShortUrl />} />
+        <Route path='/shortUrl' element={<ShortUrl />} />
 
       </Routes>
     </BrowserRouter>
