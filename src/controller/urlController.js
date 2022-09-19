@@ -32,12 +32,6 @@ const urlShorten = async function (req, res) {
     let shortUrl = baseUrl + "/" + urlCode;
 
     //validation
-    if (!validUrl.test(baseUrl)) {
-      return res
-        .status(400)
-        .send({ status: false, message: "base url invalid" });
-    }
-
     if (!isValidData(longUrl)) {
       return res
         .status(400)
@@ -92,7 +86,7 @@ const urlShorten = async function (req, res) {
 
 let getUrlCode = async function (req, res) {
   try {
-
+    window.alert('Namaste, world!');
     let requestParams = req.params.urlCode;
     let cachesUrlData = await GET_ASYNC(`${requestParams}`);
 
