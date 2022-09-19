@@ -10,7 +10,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use((req, res, next) => { res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; frame-src 'self'"); next(); });
+app.use((req, res, next) => {
+  res.setHeader('Content-Security-Policy', "default-src :'self';font-src :'self';");
+  next();
+});
 
 //cors
 app.use((req, res, next) => {

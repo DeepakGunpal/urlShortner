@@ -86,7 +86,6 @@ const urlShorten = async function (req, res) {
 
 let getUrlCode = async function (req, res) {
   try {
-    window.alert('Namaste, world!');
     let requestParams = req.params.urlCode;
     let cachesUrlData = await GET_ASYNC(`${requestParams}`);
 
