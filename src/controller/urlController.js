@@ -16,32 +16,22 @@ const {
 
 const SET_ASYNC = promisify(redisClient.SET).bind(redisClient);
 const GET_ASYNC = promisify(redisClient.GET).bind(redisClient);
+// const DELETE = promisify(redisClient.DEL).bind(redisClient); // TODO: remove key from redis
 
 const urlShorten = async function (req, res) {
   try {
-    let requestBody = req.body;
-    let { longUrl } = requestBody;
-
-
+    let { longUrl } = req.body;
     const shorIdCharacters = shortid.characters(
       "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@"
     );
 
     let urlCode = shortid.generate(shorIdCharacters);
 
-    let baseUrl = "https://urlshortnerdg.herokuapp.com/url";
+    let baseUrl = `https://${req.headers.host}/url`;
 
     let shortUrl = baseUrl + "/" + urlCode;
 
-    // http://localhost:4000/fsdoierlksdfo
-
     //validation
-    if (!isValidRequestBody(requestBody)) {
-      return res
-        .status(400)
-        .send({ status: false, message: "No data provided" });
-    }
-
     if (!validUrl.test(baseUrl)) {
       return res
         .status(400)
@@ -91,26 +81,28 @@ const urlShorten = async function (req, res) {
         .select({ __v: 0, _id: 0, createdAt: 0, updatedAt: 0 });
 
       //save in cache
-      await SET_ASYNC(`${longUrl}`, JSON.stringify(newLongUrl));
-
+      await SET_ASYNC(`${longUrl}`, JSON.stringify(newLongUrl), 'EX', 60 * 60);
       res.status(201).send({ status: true, data: newLongUrl });
     }
   } catch (error) {
+    console.log(error.message);
     res.status(500).send({ status: false, message: error.message });
   }
 };
 
 let getUrlCode = async function (req, res) {
   try {
-    let requestParams = req.params.urlCode;
 
+    let requestParams = req.params.urlCode;
     let cachesUrlData = await GET_ASYNC(`${requestParams}`);
 
     //convert to object
     const urlData = JSON.parse(cachesUrlData);
     if (cachesUrlData) {
-      return res.status(302).send(urlData);
+      console.log('Hit')
+      return res.status(302).redirect(urlData.longUrl);
     } else {
+      console.log('Miss')
       let findUrlCode = await urlModel
         .findOne({ urlCode: requestParams })
         .select({ urlCode: 1, longUrl: 1, shortUrl: 1 });
@@ -121,8 +113,8 @@ let getUrlCode = async function (req, res) {
           .send({ status: false, message: "Not found this url code." });
       }
 
-      await SET_ASYNC(`${requestParams}`, JSON.stringify(findUrlCode));
-      res.status(302).send(findUrlCode);
+      await SET_ASYNC(`${requestParams}`, JSON.stringify(findUrlCode), 'EX', 60 * 60);
+      res.status(302).redirect(findUrlCode.longUrl);
     }
   } catch (error) {
     res.status(500).send({ status: false, message: error.message });

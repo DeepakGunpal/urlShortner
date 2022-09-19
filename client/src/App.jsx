@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import Result from './components/result/Result';
 import Socials from './components/socials/Socials';
+import { axiosInstance } from './config';
 
 
 
@@ -11,19 +12,14 @@ function App() {
   const [url, setUrl] = useState("");
 
   const submit = async () => {
-    console.log('hello')
-    const data = await fetch('https://urlshortnerdg.herokuapp.com/url/shorten', {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ longUrl: url })
-    })
-    const result = await data.json()
-    if (data.status === 400) {
-      window.alert(result.message)
-    }
-    setShortUrl(result)
+    const result = await axiosInstance.post('/shorten', { longUrl: url })
+      .catch(err => {
+        if (err.response.status === 400) {
+          window.alert(err.response.data.message);
+        }
+      });
+
+    setShortUrl(result.data.data)
     setUrl("")
   }
 
@@ -35,7 +31,7 @@ function App() {
         <button type='submit' onClick={submit}>Submit</button>
       </div>
       {
-        shortUrl.data && <Result result={shortUrl} />
+        shortUrl && <Result result={shortUrl} />
       }
       <Socials />
 
