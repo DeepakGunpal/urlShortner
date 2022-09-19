@@ -110,7 +110,7 @@ let getUrlCode = async function (req, res) {
       res.status(302).redirect(findUrlCode.longUrl);
     }
   } catch (error) {
-    res.status(500).send({ status: false, message: error.message });
+    res.status(500).JSON({ status: false, message: error.message });
   }
 };
 

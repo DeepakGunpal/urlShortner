@@ -8,6 +8,10 @@ router.post("/shorten", urlShorten);
 router.get("/:urlCode", getUrlCode);
 router.post("/:urlCode", getUrlCode);
 
+router.get('/test', (req, res) => {
+    res.status(200).send({ status: true, data: "succeeded" });
+})
+
 
 
 
