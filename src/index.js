@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 const route = require("./routes/route");
 require('dotenv').config();
 
@@ -10,26 +11,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use((req, res, next) => {
-  res.setHeader('Content-Security-Policy', "default-src :'self';font-src :'self';");
-  next();
-});
-
-//cors
-app.use((req, res, next) => {
-  res.header({ "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Content-Type" });
-  next();
-});
-
-if (process.env.NODE_ENV == "production") {
-
-  app.use(express.static("./client/build"));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-  })
-}
-
+app.use(cors({
+  origin: "*"
+}));
 
 mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true })
   .then(() => console.log("mongo is connected"))

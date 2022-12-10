@@ -1,26 +1,26 @@
 {
-  "name": "project-4",
+  "name": "urlshortner",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/index.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "start": "nodemon src/index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DeepakGunpal/Project-4.git"
+    "url": "git+https://github.com/DeepakGunpal/urlShortner.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/DeepakGunpal/Project-4/issues"
+    "url": "https://github.com/DeepakGunpal/urlShortner/issues"
   },
-  "homepage": "https://github.com/DeepakGunpal/Project-4#readme",
+  "homepage": "https://github.com/DeepakGunpal/urlShortner#readme",
   "dependencies": {
     "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "mongoose": "^6.3.3",
